@@ -1,0 +1,55 @@
+            {% extends 'base/template.html' %}
+            {% load static %}
+            {% block content_wrapper %}
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Main content -->
+                <section class="content">
+                    <div class="row no-margin">
+                        <div class="col-md-12 no-pad">
+                            <section class="content-header">
+                                <h1>
+                                    Books List
+                                    <div class="pull-right">
+                                        <a href="#">
+                                            <button type="button" class="btn btn-success" style="display: inline-block;"><i class="fa fa-plus-circle"></i> Add Book</button>
+                                        </a>
+                                    </div>
+                                </h1>
+                            </section>
+                            <section class="content" style="padding: 5px 0px;">
+                                
+                                <div class="col-md-12 no-pad">
+                                    <div class="box box-primary">
+                                        <div class="box-body light-green-body">
+                                            <div class="table-responsive">
+                                                <table id="example" class="table" style="width:100%">
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End box-body -->
+                                </div>
+                                <!-- End box -->
+                            </section>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </section>
+                <!-- End .content -->
+            </div>
+            <!-- /.content-wrapper -->            
+            {% endblock %}
+
+        {% block script %}
+        <script>
+            let datatable_url = "{% url 'lms-admin/ajax-books-list' %}";
+        </script>
+        <script src="{% static 'custom-js/books.js' %}"></script>
+        {% endblock %} 
+            
+            
+
+
+
+           
