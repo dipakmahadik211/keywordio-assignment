@@ -1,1 +1,17 @@
-<h1>Sidebar</h1>
+            {% load static %}
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- sidebar menu -->
+                    <ul class="sidebar-menu" data-widget="tree">
+                        <li class="s_meun dashboard_active active">
+                            <a href="{% url 'lms-admin/dashboard' %}"> <i class="fa fa-dashboard"></i> <span>Dashboard</span> </a>
+                        </li>
+                        <li class="s_meun buyers_active">
+                            <a href="#"> <i class="fa fa-book"></i> <span>Books</span> </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
