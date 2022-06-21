@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from lmsadmin.views.auth import Auth,SignUp
-from lmsadmin.views.books import BooksAjaxDatatableView,BooksListView
+from lmsadmin.views.books import BooksAjaxDatatableView,BooksListView,BooksStatusView
 from lmsadmin.views.dashboard import Dashboard
 
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
     # Books
     path('books-list/', BooksListView.as_view(), name='lms-admin/books-list'),
     path('ajax-books-list/', BooksAjaxDatatableView.as_view(), name='lms-admin/ajax-books-list'),
+    path('books-change-status/', BooksStatusView.as_view(), name='books-change-status'),
     # Books
     
     # Dashboard

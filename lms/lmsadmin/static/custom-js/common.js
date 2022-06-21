@@ -1,5 +1,4 @@
 let token = $("[name=csrfmiddlewaretoken]").val();
-
 $(document).on("click", ".tgle-on", function () {
     let id = this.closest("tr").id.substr(4);
     let url = $(this).data('url')
@@ -14,7 +13,7 @@ $(document).on("click", ".tgle-on", function () {
             if (willDelete) {
                 $.ajax({
                     headers: { "X-CSRFToken": token },
-                    url: "/gopllay-admin/"+url,
+                    url: "/lms-admin/"+url,
                     method: "POST",
                     data: {
                         id: id,
@@ -47,7 +46,7 @@ $(document).on("click", ".tgle-off", function () {
           if (willDelete) {
               $.ajax({
                   headers: { "X-CSRFToken": token },
-                  url: "/gopllay-admin/"+url,
+                  url: "/lms-admin/"+url,
                   method: "POST",
                   data: {
                       id: id,
@@ -80,7 +79,7 @@ $(document).on("click", ".del-record", function () {
           if (willDelete) {
               $.ajax({
                   headers: { "X-CSRFToken": token },
-                  url: "/gopllay-admin/"+url,
+                  url: "/lms-admin/"+url,
                   method: "POST",
                   data: {
                       id: id,

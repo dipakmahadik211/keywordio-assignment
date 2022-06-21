@@ -1,3 +1,4 @@
+from datetime import datetime
 from re import template
 from django.shortcuts import redirect, render
 from django.template import loader
@@ -22,12 +23,11 @@ class BooksStatusView(View):
         user = Useradmins.objects.get(id=admin_id) 
         id = request.POST.get('id')
         status = request.POST.get('status')
-        state_obj = Books.objects.get(id=id)
-        state_obj.status = status
-        state_obj.modified_at = Books.now()
-        state_obj.modified_by  = user
-        state_obj.modified_ip_address = request.META.get('REMOTE_ADDR')
-        state_obj.save()
+        obj = Books.objects.get(id=id)
+        obj.status = status
+        obj.modified_on = datetime.now()
+        obj.modified_by  = user
+        obj.save()
         return HttpResponse(True)
 
 class BooksAjaxDatatableView(AjaxDatatableView):
@@ -52,16 +52,16 @@ class BooksAjaxDatatableView(AjaxDatatableView):
       
         if row['status'] == 'active':
             row['status'] = """
-                <i class="fa fa-toggle-on tgle-on" title="Active" data-url="cities-change-status/">
+                <i class="fa fa-toggle-on tgle-on" title="Active" data-url="books-change-status/">
             """
         else:
              row['status'] = """
-                <i class="fa fa-toggle-off tgle-off" title="Inactive" data-url="cities-change-status/">
+                <i class="fa fa-toggle-off tgle-off" title="Inactive" data-url="books-change-status/">
             """
               
         row['Action'] = """
-                <a class="btn-warning btn-xs edit-city" title="Edit"><i class="icon-pencil"></i></a>
-                <a class="btn-danger btn-xs del-record" title="Delete" data-url="cities-change-status/"><i class="icon-trash"></i></a>
+                <a class="btn-warning btn-xs edit-city" title="Edit"><i class="fa fa-pencil"></i></a>
+                <a class="btn-danger btn-xs del-record" title="Delete" data-url="books-change-status/"><i class="fa fa-trash"></i></a>
             """
     
     def get_initial_queryset(self, request=None):    
