@@ -58,6 +58,17 @@ class SignUp(View):
             form = SignUpForm()
         template = loader.get_template('auth/sign-up.html') 
         return HttpResponse(template.render({'form':form},request))
+    
+class SignOut(View):
+    
+    def get(self,request):
+        logout(request)
+        if request.session:
+            for key in request.session.keys():
+                del request.session[key]
+        return redirect('/lms-admin/sign-in')
+
+        
             
     
     

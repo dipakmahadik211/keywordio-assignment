@@ -3,7 +3,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from lmsadmin.middlewares.auth import auth_middleware
-from lmsadmin.views.auth import Auth,SignUp
+from lmsadmin.views.auth import Auth,SignUp,SignOut
 from lmsadmin.views.books import BooksCreateView,BooksAjaxDatatableView,BooksEditView,BooksListView,BooksStatusView
 from lmsadmin.views.dashboard import Dashboard
 
@@ -11,6 +11,7 @@ urlpatterns = [
     # Auth
     path('sign-in/', Auth.as_view(), name='lms-admin/sign-in'),
     path('sign-up/', SignUp.as_view(), name='lms-admin/sign-up'),
+    path('sign-out/', SignOut.as_view(), name='lms-admin/sign-out'),
     # Auth
     
     # Books

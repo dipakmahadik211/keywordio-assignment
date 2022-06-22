@@ -23,9 +23,13 @@ class Books(models.Model):
     created_on = models.DateTimeField(auto_created=True)
     modified_by = models.ForeignKey(Useradmins,on_delete=models.CASCADE,related_name='book_modified_by',db_column='modified_by',null=True,blank=True)
     modified_on = models.DateTimeField(auto_now=True,null=True,blank=True)
-    status = models.CharField(max_length=255,choices=StatusChoices)
+    status = models.CharField(max_length=255,choices=StatusChoices,default='active')
     
     class Meta:
         db_table = 'master_books'
+        
+    @staticmethod
+    def get_books_list():
+        return Books.objects.exclude(status='delete')
     
     
