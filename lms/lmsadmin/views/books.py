@@ -3,9 +3,10 @@ from re import template
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.views import View
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from lmsadmin.models.auth import Useradmins
 from lmsadmin.models.books import Books
+from lmsadmin.forms.books import BookForm
 from ajax_datatable.views import AjaxDatatableView
 # Create your views here.
 
@@ -14,6 +15,31 @@ class BooksListView(View):
     def get(self,request):
         template = loader.get_template('books/books-list.html')
         return HttpResponse(template.render({},request))
+
+
+class BooksCreateView(View):
+    
+    def get(self,request):
+        form = BookForm() 
+        template = loader.get_template('books/create-new-book.html')
+        return HttpResponse(template.render({'form':form},request))  
+    
+    def post(self,request):
+        if request.method == 'POST':
+            form = BookForm(request.POST, request.FILES)
+            user = Useradmins.objects.get(id=request.session['admin_id'])  
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.created_by = user
+                obj.created_on = datetime.now()
+                obj.save()
+                return HttpResponseRedirect('/lms-admin/books-list/')
+            else:
+                print(form.errors)
+        else:
+            form = BookForm() 
+        template = loader.get_template('books/create-new-book.html')
+        return HttpResponse(template.render({'form':form},request)) 
     
     
 class BooksStatusView(View):
@@ -29,6 +55,36 @@ class BooksStatusView(View):
         obj.modified_by  = user
         obj.save()
         return HttpResponse(True)
+
+class BooksEditView(View):
+    def get(self,request,id=None):
+        if id is None:
+            return redirect('/lms-admin/books-list/') 
+        try:
+            book_obj = Books.objects.get(id=id)
+            form = BookForm(request.GET or None, instance=book_obj)
+        except Books.DoesNotExist:
+            return redirect('/lms-admin/books-list/')                            
+        template = loader.get_template('books/edit-book.html')
+        return HttpResponse(template.render({'form':form,'book_image':book_obj.book_image},request))
+    
+    def post(self,request,id=None):
+        if request.method == 'POST':
+            book_obj = Books.objects.get(id=id) 
+            form = BookForm(request.POST,instance=book_obj)        
+            if form.is_valid(): 
+                user = Useradmins.objects.get(id=1)              
+                obj = form.save(commit=False) 
+                obj.modified_on = datetime.now()
+                obj.modified_by  = user
+                obj.save()
+                return HttpResponseRedirect('/lms-admin/books-list/')
+            else:
+                print(form.errors)              
+        else:
+            form = BookForm()       
+        template = loader.get_template('books/edit-book.html')
+        return HttpResponse(template.render({'form':form},request))
 
 class BooksAjaxDatatableView(AjaxDatatableView):
 
@@ -60,7 +116,7 @@ class BooksAjaxDatatableView(AjaxDatatableView):
             """
               
         row['Action'] = """
-                <a class="btn-warning btn-xs edit-city" title="Edit"><i class="fa fa-pencil"></i></a>
+                <a class="btn-warning btn-xs edit-books" title="Edit"><i class="fa fa-pencil"></i></a>
                 <a class="btn-danger btn-xs del-record" title="Delete" data-url="books-change-status/"><i class="fa fa-trash"></i></a>
             """
     

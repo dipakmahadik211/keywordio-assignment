@@ -1,1 +1,1 @@
-from adminbackend.middlewares.auth import *
+from lmsadmin.middlewares.auth import *

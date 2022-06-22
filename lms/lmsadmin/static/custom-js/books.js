@@ -15,13 +15,27 @@ AjaxDatatableViewUtils.initialize_table(
     }
 );
 
-$(document).on('click','.edit-state',function(){
-    state_id = this.closest('tr').id.substr(4);
-    window.location = '../state-list/'+state_id;
+$(document).on('click','.edit-books',function(){
+    book_id = this.closest('tr').id.substr(4);
+    window.location = '../edit-book/'+book_id;
 });
 
 function reload_datatable()
 {
     $('.table').DataTable().ajax.reload();
+}
+
+$(document).on('change','#id_book_image',function(){
+    readURL(this);
+});
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#preview_book_image').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]); 
+    }
 }
 
